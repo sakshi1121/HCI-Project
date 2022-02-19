@@ -1,6 +1,6 @@
 <body>
 <div class="header" id="head">
-    <br><h1>The Web Services have been ranked!</h1>
+    <br><h1>Results!</h1>
 </div><br><br>
 
 <!DOCTYPE html>
@@ -9,19 +9,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Services Ranking</title>
+    <title>Speech Emotion Recognition</title>
 </head>
 
 <body>
 <div class="login-box">
-  <h2>The Web Services ranking based on trust percentages is given below:</h2>
+  <h2>The results are displayed below:</h2>
 
     <table id=t1>
     <tr id=r1>
-      <th>Name of the Web service</th>
-      <th>TS%</th>
+      <th>Question Number</th>
+      <th>Detected Emotion</th>
     </tr>
-    {% for key,value in ranking.items() %}
+    {% for key,value in emotion_detection.items() %}
     <tr>
         <th>
             {{key}}

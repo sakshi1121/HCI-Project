@@ -13,10 +13,7 @@ import pandas as pd
 import operator
 import librosa
 import soundfile
-import os
-import glob
-import pickle
-import numpy as np
+from scipy.io import wavfile
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score
@@ -36,7 +33,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/user', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         # if 'file' not in request.files:
@@ -65,7 +62,8 @@ def index():
             file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename4))
             print('----------Files uploaded----------: \n')
             emotion1 = emotion_detection()
-            data = {filename: emotion1}
+            data = {filename: emotion1[0], filename1: emotion1[1],
+                    filename2: emotion1[2], filename3: emotion1[3], filename4: emotion1[4]}
             final_ranks = dict(
                 sorted(data.items(), key=operator.itemgetter(1), reverse=True))
             return render_template('results.html', emotion_detection=final_ranks)
@@ -100,10 +98,23 @@ def emotion_detection():
     model = joblib.load(os.path.join(os.path.dirname(
         os.path.realpath(__file__)), 'model/finalized_model.sav'))
     testfile = []
-    for file in glob.glob("/uploads/q*/*.wav"):
+    for file in glob.glob("uploads/q1.wav"):
+        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
+        testfile.append(feature)
+    for file in glob.glob("uploads/q2.wav"):
+        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
+        testfile.append(feature)
+    for file in glob.glob("uploads/q3.wav"):
+        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
+        testfile.append(feature)
+    for file in glob.glob("uploads/q4.wav"):
+        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
+        testfile.append(feature)
+    for file in glob.glob("uploads/q5.wav"):
         feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
         testfile.append(feature)
     result1 = model.predict(testfile)
+    print(result1)
     return result1
 
 
