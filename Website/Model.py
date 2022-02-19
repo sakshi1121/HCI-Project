@@ -39,34 +39,33 @@ def index():
         # if 'file' not in request.files:
         #     print('No file attached in request')
         #     return redirect(request.url)
-        file = request.files['q1']
-        file1 = request.files['q2']
-        file2 = request.files['q3']
-        file3 = request.files['q4']
-        file4 = request.files['q5']
+        file1 = request.files['q1']
+        file2 = request.files['q2']
+        file3 = request.files['q3']
+        file4 = request.files['q4']
+        file5 = request.files['q5']
 
-        if file.filename == '' or file1.filename == '' or file2.filename == '' or file3.filename == '' or file4.filename == '':
+        if file1.filename == '' or file2.filename == '' or file3.filename == '' or file4.filename == '' or file5.filename == '':
             print('No file selected')
             return redirect(request.url)
 
-        if file and file1 and file2 and file3 and file4 and allowed_file(file.filename) and allowed_file(file1.filename) and allowed_file(file2.filename) and allowed_file(file3.filename) and allowed_file(file4.filename):
-            filename = secure_filename(file.filename)
+        if file1 and file2 and file3 and file4 and file5 and allowed_file(file1.filename) and allowed_file(file2.filename) and allowed_file(file3.filename) and allowed_file(file4.filename) and allowed_file(file5.filename):
             filename1 = secure_filename(file1.filename)
             filename2 = secure_filename(file2.filename)
             filename3 = secure_filename(file3.filename)
             filename4 = secure_filename(file4.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            filename5 = secure_filename(file5.filename)
             file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename1))
             file2.save(os.path.join(app.config['UPLOAD_FOLDER'], filename2))
             file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename3))
             file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename4))
+            file5.save(os.path.join(app.config['UPLOAD_FOLDER'], filename5))
             print('----------Files uploaded----------: \n')
-            emotion1 = emotion_detection()
-            data = {filename: emotion1[0], filename1: emotion1[1],
-                    filename2: emotion1[2], filename3: emotion1[3], filename4: emotion1[4]}
-            final_ranks = dict(
-                sorted(data.items(), key=operator.itemgetter(1), reverse=True))
-            return render_template('results.html', emotion_detection=final_ranks)
+            emotions = emotion_detection()
+            data = {filename1: emotions[0], filename2: emotions[1],
+                    filename3: emotions[2], filename4: emotions[3], filename5: emotions[4]}
+            delete_files()
+            return render_template('results.html', emotion_detection=data)
     return render_template('forms.html')
 
 # Extract features (mfcc, chroma, mel) from a sound file
@@ -98,24 +97,19 @@ def emotion_detection():
     model = joblib.load(os.path.join(os.path.dirname(
         os.path.realpath(__file__)), 'model/finalized_model.sav'))
     testfile = []
-    for file in glob.glob("uploads/q1.wav"):
+    for file in glob.glob("uploads/*.wav"):
         feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
         testfile.append(feature)
-    for file in glob.glob("uploads/q2.wav"):
-        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
-        testfile.append(feature)
-    for file in glob.glob("uploads/q3.wav"):
-        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
-        testfile.append(feature)
-    for file in glob.glob("uploads/q4.wav"):
-        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
-        testfile.append(feature)
-    for file in glob.glob("uploads/q5.wav"):
-        feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
-        testfile.append(feature)
-    result1 = model.predict(testfile)
-    print(result1)
-    return result1
+    emotions = model.predict(testfile)
+    print(emotions)
+    return emotions
+
+
+def delete_files():
+    for filename in glob.glob(os.path.join(folder_path, '*.wav')):
+        print(filename)
+        if os.path.exists(filename):
+            os.remove(filename)
 
 
 if __name__ == "__main__":
