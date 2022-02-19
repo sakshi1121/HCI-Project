@@ -36,34 +36,47 @@ def allowed_file(filename):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # if 'file' not in request.files:
-        #     print('No file attached in request')
-        #     return redirect(request.url)
         file1 = request.files['q1']
         file2 = request.files['q2']
         file3 = request.files['q3']
         file4 = request.files['q4']
         file5 = request.files['q5']
-
-        if file1.filename == '' or file2.filename == '' or file3.filename == '' or file4.filename == '' or file5.filename == '':
+        file6 = request.files['q6']
+        file7 = request.files['q7']
+        file8 = request.files['q8']
+        file9 = request.files['q9']
+        file10 = request.files['q10']
+        if file1.filename == '' or file2.filename == '' or file3.filename == '' or file4.filename == '' or file5.filename == '' or file6.filename == '' or file7.filename == '' or file8.filename == '' or file9.filename == '' or file10.filename == '':
             print('No file selected')
             return redirect(request.url)
 
-        if file1 and file2 and file3 and file4 and file5 and allowed_file(file1.filename) and allowed_file(file2.filename) and allowed_file(file3.filename) and allowed_file(file4.filename) and allowed_file(file5.filename):
+        if file1 and file2 and file3 and file4 and file5 and file6 and file7 and file8 and file9 and file10 and allowed_file(file1.filename) and allowed_file(file2.filename) and allowed_file(file3.filename) and allowed_file(file4.filename) and allowed_file(file5.filename) and allowed_file(file6.filename) and allowed_file(file7.filename) and allowed_file(file8.filename) and allowed_file(file9.filename) and allowed_file(file10.filename):
             filename1 = secure_filename(file1.filename)
             filename2 = secure_filename(file2.filename)
             filename3 = secure_filename(file3.filename)
             filename4 = secure_filename(file4.filename)
             filename5 = secure_filename(file5.filename)
+            filename6 = secure_filename(file6.filename)
+            filename7 = secure_filename(file7.filename)
+            filename8 = secure_filename(file8.filename)
+            filename9 = secure_filename(file9.filename)
+            filename10 = secure_filename(file10.filename)
             file1.save(os.path.join(app.config['UPLOAD_FOLDER'], filename1))
             file2.save(os.path.join(app.config['UPLOAD_FOLDER'], filename2))
             file3.save(os.path.join(app.config['UPLOAD_FOLDER'], filename3))
             file4.save(os.path.join(app.config['UPLOAD_FOLDER'], filename4))
             file5.save(os.path.join(app.config['UPLOAD_FOLDER'], filename5))
+            file6.save(os.path.join(app.config['UPLOAD_FOLDER'], filename6))
+            file7.save(os.path.join(app.config['UPLOAD_FOLDER'], filename7))
+            file8.save(os.path.join(app.config['UPLOAD_FOLDER'], filename8))
+            file9.save(os.path.join(app.config['UPLOAD_FOLDER'], filename9))
+            file10.save(os.path.join(app.config['UPLOAD_FOLDER'], filename10))
             print('----------Files uploaded----------: \n')
             emotions = emotion_detection()
             data = {filename1: emotions[0], filename2: emotions[1],
-                    filename3: emotions[2], filename4: emotions[3], filename5: emotions[4]}
+                    filename3: emotions[2], filename4: emotions[3], filename5: emotions[4],
+                    filename6: emotions[5], filename7: emotions[6],
+                    filename8: emotions[7], filename9: emotions[8], filename10: emotions[9]}
             delete_files()
             return render_template('results.html', emotion_detection=data)
     return render_template('forms.html')
