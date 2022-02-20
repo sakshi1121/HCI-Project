@@ -20,6 +20,8 @@ from sklearn.metrics import accuracy_score
 import pickle
 import tensorflow as tf
 from tensorflow import keras
+import pydub
+from pydub import AudioSegment
 
 
 ALLOWED_EXTENSIONS = {'wav'}
@@ -113,6 +115,9 @@ def emotion_detection():
         os.path.realpath(__file__)), 'model/finalized_model.sav'))
     testfile = []
     for file in glob.glob("uploads/*.wav"):
+        sound = AudioSegment.from_wav(file)
+        sound = sound.set_channels(1)
+        sound.export(file, format="wav")
         feature = extract_feature(file, mfcc=True, chroma=True, mel=True)
         testfile.append(feature)
     emotions = model.predict(testfile)
