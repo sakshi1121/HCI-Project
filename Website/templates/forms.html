@@ -4,12 +4,105 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/record.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
     <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="icon" type="image/ico" href="https://markjivko.com/favicon.ico">
+    <script src="https://markjivko.com/dist/recorder.js"></script>
+    <script>
+        jQuery(document).ready(function () {
+            var $ = jQuery;
+            var myRecorder = {
+                objects: {
+                    context: null,
+                    stream: null,
+                    recorder: null
+                },
+                init: function () {
+                    if (null === myRecorder.objects.context) {
+                        myRecorder.objects.context = new (
+                                window.AudioContext || window.webkitAudioContext
+                                );
+                    }
+                },
+                start: function () {
+                    var options = {audio: true, video: false};
+                    navigator.mediaDevices.getUserMedia(options).then(function (stream) {
+                        myRecorder.objects.stream = stream;
+                        myRecorder.objects.recorder = new Recorder(
+                                myRecorder.objects.context.createMediaStreamSource(stream),
+                                {numChannels: 1}
+                        );
+                        myRecorder.objects.recorder.record();
+                    }).catch(function (err) {});
+                },
+                stop: function (listObject) {
+                    if (null !== myRecorder.objects.stream) {
+                        myRecorder.objects.stream.getAudioTracks()[0].stop();
+                    }
+                    if (null !== myRecorder.objects.recorder) {
+                        myRecorder.objects.recorder.stop();
+
+                        // Validate object
+                        if (null !== listObject
+                                && 'object' === typeof listObject
+                                && listObject.length > 0) {
+                            // Export the WAV file
+                            myRecorder.objects.recorder.exportWAV(function (blob) {
+                                var url = (window.URL || window.webkitURL)
+                                        .createObjectURL(blob);
+
+                                // Prepare the playback
+                                var audioObject = $('<audio controls></audio>')
+                                        .attr('src', url);
+
+                                // Prepare the download link
+                                var downloadObject = $('<a>&#9660;</a>')
+                                        .attr('href', url)
+                                        .attr('download', new Date().toUTCString() + '.wav');
+
+                                // Wrap everything in a row
+                                var holderObject = $('<div class="row"></div>')
+                                        .append(audioObject)
+                                        .append(downloadObject);
+
+                                // Append to the list
+                                listObject.append(holderObject);
+                            });
+                        }
+                    }
+                }
+            };
+
+            // Prepare the recordings list
+            var listObject = $('[data-role="recordings"]');
+
+            // Prepare the record button
+            $('[data-role="controls"] > button').click(function () {
+                // Initialize the recorder
+                myRecorder.init();
+
+                // Get the button state 
+                var buttonState = !!$(this).attr('data-recording');
+
+                // Toggle
+                if (!buttonState) {
+                    $(this).attr('data-recording', 'true');
+                    myRecorder.start();
+                } else {
+                    $(this).attr('data-recording', '');
+                    myRecorder.stop(listObject);
+                }
+            });
+        });
+    </script>
 	<title>Self-assessment</title>
-    
 </head>
 <body>
     <div class="topnav">
@@ -25,6 +118,12 @@
           <form method=post enctype=multipart/form-data>
             <label for="q1">Do you find pleasure in doing or trying new things?</label><br>
             <input type="file" id="q1" name="q1">
+            <div class="holder">
+                <div data-role="controls">
+                    <button>Record</button>
+                </div>
+                <div data-role="recordings"></div>
+            </div>
             <br> <br>
             <label for="q2">Do you have trouble falling or staying asleep, or sleeping too much?</label><br>
             <input type="file" id="q2" name="q2" >
