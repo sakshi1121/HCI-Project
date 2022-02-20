@@ -77,11 +77,12 @@ def index():
                     filename3: emotions[2], filename4: emotions[3], filename5: emotions[4],
                     filename6: emotions[5], filename7: emotions[6],
                     filename8: emotions[7], filename9: emotions[8], filename10: emotions[9]}
+            percentages = emotion_percentages(emotions)
+            data2 = {'Emotions': 'percentages', 'calm': percentages[0], 'happy': percentages[1],
+                     'sad': percentages[2], 'angry': percentages[3], 'fearful': percentages[4]}
             delete_files()
-            return render_template('results.html', emotion_detection=data)
+            return render_template('results.html', emotion_detection=data, percentages_data=data2)
     return render_template('forms.html')
-
-# Extract features (mfcc, chroma, mel) from a sound file
 
 
 def extract_feature(file_name, mfcc, chroma, mel):
@@ -107,6 +108,7 @@ def extract_feature(file_name, mfcc, chroma, mel):
 
 
 def emotion_detection():
+    emotions = []
     model = joblib.load(os.path.join(os.path.dirname(
         os.path.realpath(__file__)), 'model/finalized_model.sav'))
     testfile = []
@@ -116,6 +118,25 @@ def emotion_detection():
     emotions = model.predict(testfile)
     print(emotions)
     return emotions
+
+
+def emotion_percentages(emotions):
+    percentages = []
+    percentages = [0 for i in range(5)]
+    for i in range(0, 10):
+        if emotions[i] == 'calm':
+            percentages[0] = percentages[0]+1
+        elif emotions[i] == 'happy':
+            percentages[1] = percentages[1]+1
+        elif emotions[i] == 'sad':
+            percentages[2] = percentages[2]+1
+        elif emotions[i] == 'angry':
+            percentages[3] = percentages[3]+1
+        elif emotions[i] == 'fearful':
+            percentages[4] = percentages[4]+1
+    for i in range(0, 5):
+        percentages[i] = percentages[i]*10
+    return percentages
 
 
 def delete_files():
