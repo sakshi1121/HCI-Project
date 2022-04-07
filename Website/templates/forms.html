@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>HCI</title>
+    <link rel="canonical" href="https://markjivko.com/tutorials/B3wWIsNHPk4/">
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="Author" content="Mark Jivko">
+    <meta name="Keywords" content="js,audio recorder">
+    <meta name="Description" content="Recording audio with HTML 5 and JavaScript">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="initial-scale=1.0, width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="js/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <style type="text/css">
+        /* body {
+                position: absolute;
+                background-color: honeydew;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                -webkit-justify-content: center;
+                    -ms-flex-pack: center;
+                        justify-content: center;
+                -webkit-box-align: center;
+                -webkit-align-items: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                height: 100%;
+                width: 100%;
+                margin: 0;
+            } */
+        .holder {
+            /* background-color: #4c474c; */
+            /* background-image: -webkit-gradient(linear, left bottom, left top, from(#4c474c), to(#141414));
+            background-image: -o-linear-gradient(bottom, #4c474c 0%, #141414 100%);
+            background-image: linear-gradient(0deg, #4c474c 0%, #141414 100%); */
+            border-radius: 50px;
+            width: 20%;
+        }
+
+        [data-role="controls"]>button {
+            margin: 50px auto;
+            outline: none;
+            display: block;
+            border: none;
+            background-color: #D9AFD9;
+            background-image: -webkit-gradient(linear, left bottom, left top, from(#D9AFD9), to(#97D9E1));
+            background-image: -o-linear-gradient(bottom, #D9AFD9 0%, #97D9E1 100%);
+            background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-indent: -1000em;
+            cursor: pointer;
+            -webkit-box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
+                0px 0px 0px 5px #fff, 0px 0px 0px 5px #333;
+            box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
+                0px 0px 0px 5px #fff, 0px 0px 0px 5px #333;
+        }
+
+        [data-role="controls"]>button:hover {
+            background-color: #ee7bee;
+            background-image: -webkit-gradient(linear, left bottom, left top, from(#ee7bee), to(#6fe1f5));
+            background-image: -o-linear-gradient(bottom, #ee7bee 0%, #6fe1f5 100%);
+            background-image: linear-gradient(0deg, #ee7bee 0%, #6fe1f5 100%);
+        }
+
+        [data-role="controls"]>button[data-recording="true"] {
+            background-color: #ff2038;
+            background-image: -webkit-gradient(linear, left bottom, left top, from(#ff2038), to(#b30003));
+            background-image: -o-linear-gradient(bottom, #ff2038 0%, #b30003 100%);
+            background-image: linear-gradient(0deg, #ff2038 0%, #b30003 100%);
+        }
+
+        [data-role="recordings"]>.row {
+            width: auto;
+            height: auto;
+            padding: 20px;
+        }
+
+        [data-role="recordings"]>.row>audio {
+            outline: none;
+        }
+
+        [data-role="recordings"]>.row>a {
+            opacity: 0%;
+            /* display: inline-block;
+                text-align: center;
+                font-size: 20px;
+                line-height: 50px;
+                vertical-align: middle;
+                width: 50px;
+                height: 50px;
+                border-radius: 5px;
+                color: #fff;
+                font-weight: bold;
+                text-decoration: underline;
+                background-color: #0093E9;
+                background-image: -webkit-gradient(linear, left bottom, left top, from(#0093E9), to(#80D0C7));
+                background-image: -o-linear-gradient(bottom, #0093E9 0%, #80D0C7 100%);
+                background-image: linear-gradient(0deg, #0093E9 0%, #80D0C7 100%);
+                float: right;
+                margin-left: 20px;
+                cursor: pointer; */
+        }
+
+        [data-role="recordings"]>.row>a:hover {
+            text-decoration: none;
+        }
+
+        [data-role="recordings"]>.row>a:active {
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#0093E9), to(#80D0C7));
+            background-image: -o-linear-gradient(top, #0093E9 0%, #80D0C7 100%);
+            background-image: linear-gradient(180deg, #0093E9 0%, #80D0C7 100%);
+        }
+
+        .card {
+            /* Add shadows to create the "card" effect */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 20px 20px 20px 20px;
+            width: 70%;
+            background-color: whitesmoke;
+        }
+
+        /* On mouse-over, add a deeper shadow */
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add some padding inside the card container */
+        .container {
+            padding: 2px 16px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .explanation {
+            display: none;
+        }
+
+        .card1,
+        .card2,
+        .card3,
+        .card4 {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="#forms">Test</a>
+        <a href="#contact">Contact</a>
+        <a href="#results">Results</a>
+    </div>
+    <div class="container center">
+        <div class="card">
+            <h2>Self-assessment</h2>
+            <hr />
+            <form method="POST" enctype="multipart/form-data" id="myform">
+                <div class="no-box">
+                    <span class="no">Q1. How has your day been going?</span>
+                </div>
+                <br><br>
+                Expand question
+                <br><br>
+
+                <label class="switch">
+                    <input id="on1" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info1"></p>
+                <div class="holder">
+                    <div data-role="controls">
+                        <button type="button">Record</button>
+                    </div>
+                </div>
+                <div data-role="recordings"></div>
+                <!--<button class="btn" onclick="prev()">
+                    prev
+                </button>
+                
+                <button class="btn" onclick="next()">
+                    next
+                </button> 
+                <input type="submit" value="submit" id="btnSubmit">-->
+                <div class="no-box">
+                    <span class="no">Q2. Describe your energy in the past couple of weeks.</span>
+                </div>
+                <br><br>
+                Expand question
+                <br><br>
+                
+                <label class="switch">
+                    <input id="on2" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info2"></p>
+                <div class="holder">
+                    <div data-role="controls">
+                        <button type="button">Record</button>
+                    </div>
+                </div>
+                <div data-role="recordings"></div>
+                <button type="button" id="btnSubmit">Submit</button>
+        </div>
+
+        </form>
+    </div>
+    </div>
+    <!-- <br>
+         <div>
+            <h1>jQuery Ajax Post Form Result</h1>
+ 
+            <span id="output"></span>
+        </div>      -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://markjivko.com/dist/recorder.js"></script>
+    <script>
+        var fd = new FormData();
+
+        $(document).ready(function () {
+            var myRecorder = {
+                objects: {
+                    context: null,
+                    stream: null,
+                    recorder: null
+                },
+                init: function () {
+                    if (null === myRecorder.objects.context) {
+                        myRecorder.objects.context = new (
+                            window.AudioContext || window.webkitAudioContext
+                        );
+                    }
+                },
+                start: function () {
+                    var options = { audio: true, video: false };
+                    navigator.mediaDevices.getUserMedia(options).then(function (stream) {
+                        myRecorder.objects.stream = stream;
+                        myRecorder.objects.recorder = new Recorder(
+                            myRecorder.objects.context.createMediaStreamSource(stream),
+                            { numChannels: 1 }
+                        );
+                        myRecorder.objects.recorder.record();
+                    }).catch(function (err) { });
+                },
+                stop: function (listObject) {
+                    if (null !== myRecorder.objects.stream) {
+                        myRecorder.objects.stream.getAudioTracks()[0].stop();
+                    }
+                    if (null !== myRecorder.objects.recorder) {
+                        myRecorder.objects.recorder.stop();
+
+                        // Validate object
+                        if (null !== listObject
+                            && 'object' === typeof listObject
+                            && listObject.length > 0) {
+                            // Export the WAV file
+                            myRecorder.objects.recorder.exportWAV(function (blob) {
+                                var url = (window.URL || window.webkitURL)
+                                    .createObjectURL(blob);
+
+                                fd.append('audio', blob, 'filename.wav');
+
+                                // Prepare the playback
+                                var audioObject = $('<audio controls></audio>')
+                                    .attr('src', url);
+
+                                // Prepare the download link
+                                var downloadObject = $('<a>&#9660;</a>')
+                                    .attr('href', url)
+                                    .attr('download', new Date().toUTCString() + '.wav');
+
+                                // Wrap everything in a row
+                                var holderObject = $('<div class="row"></div>')
+                                    .append(audioObject)
+                                    .append(downloadObject);
+
+                                // Append to the list
+                                listObject.append(holderObject);
+                            });
+                        }
+                    }
+                }
+            };
+
+            // Prepare the recordings list
+            var listObject = $('[data-role="recordings"]');
+
+            // Prepare the record button
+            $('[data-role="controls"] > button').click(function () {
+                // Initialize the recorder
+                myRecorder.init();
+
+                // Get the button state 
+                var buttonState = !!$(this).attr('data-recording');
+
+                // Toggle
+                if (!buttonState) {
+                    $(this).attr('data-recording', 'true');
+                    myRecorder.start();
+                } else {
+                    $(this).attr('data-recording', '');
+                    myRecorder.stop(listObject);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('#on1').on('change', function () {
+                if (this.checked) {
+                    $("#info1").text("Talk about the things you did, how you felt etc.");
+                }
+                else {
+                    $("#info1").text(" ");
+                }
+            });
+        });
+        $(document).ready(function () {
+                $('#on2').on('change', function () {
+                    if (this.checked) {
+                        $("#info2").text("Do you feel motivated to do work or regular activities? How often do you skip events due to lack of energy?");
+                    }
+                    else {
+                        $("#info2").text(" ");
+                    }
+                });
+            });
+
+        $(document).ready(function () {
+
+            $("#btnSubmit").on('click', function (event) {
+
+                //stop submit the form, we will post it manually.
+                event.preventDefault();
+                event.stopPropagation();
+
+                // disabled the submit button
+                $("#btnSubmit").prop("disabled", true);
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "/upload",
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 800000,
+                    success: function (data) {
+
+                        $("#output").text(data);
+                        console.log("SUCCESS : ", data);
+                        $("#btnSubmit").prop("disabled", false);
+
+                    },
+                    error: function (e) {
+
+                        $("#output").text(e.responseText);
+                        console.log("ERROR : ", e);
+                        $("#btnSubmit").prop("disabled", false);
+
+                    }
+                });
+
+            });
+
+        });
+        var no_box = document
+            .querySelector('.no-box');
+
+        var i = 1;
+
+        function prev() {
+
+            // Start position 
+            if (i == 1) {
+
+                // Add disabled attribute on
+                // prev button
+                document.getElementsByClassName(
+                    'prev').disabled = true;
+
+                // Remove disabled attribute 
+                // from next button 
+                document.getElementsByClassName(
+                    'next').disabled = false;
+            } else {
+                i--;
+                return setNo();
+            }
+        }
+
+        function next() {
+
+            // End position
+            if (i == 5) {
+
+                // Add disabled attribute on 
+                // next button
+                document.getElementsByClassName(
+                    'next').disabled = true;
+
+                // Remove disabled attribute
+                // from prev button
+                document.getElementsByClassName(
+                    'prev').disabled = false;
+            } else {
+                i++;
+                return setNo();
+            }
+        }
+
+        function setNo() {
+
+            // Change innerhtml
+            return no_box.innerHTML = i;
+        }
+    </script>
+</body>
+
+</html>

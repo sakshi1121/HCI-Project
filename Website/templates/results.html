@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Emotion Recognition</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+        {% for key, value in percentages_data.items() %}
+            {% if value is string %}
+              ['{{ key }}', '{{ value }}'],
+            {% else %}
+              ['{{ key }}', {{ value }}], 
+            {% endif %}
+        {% endfor %}
+          ]);
+        
+
+        var options = {
+            title: 'Percentages of Emotions Detected',
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+            }
+    </script>
+</head>
+
+<body>
+    <div class="header" id="head">
+        <h1>Results!</h1>
+    </div>
+<div class="login-box">
+  <!-- <h2>The results are displayed below:</h2> -->
+
+    <table id=t1>
+    <tr id=r1>
+      <th>Question Number</th>
+      <th>Detected Emotion</th>
+    </tr>
+    {% for key,value in emotion_detection.items() %}
+    <tr>
+        <th>
+            {{key}}
+        </th>
+        <td>
+            {{value}}
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <!-- <table id=t1>
+        <tr id=r1>
+            <th>Emotion</th>
+            <th>Percentage</th>
+        </tr>
+        {% for key,value in percentages_data.items() %}
+        <tr>
+            <th>
+                {{key}}
+            </th>
+            <td>
+                {{value}}
+            </td>
+        </tr>
+        {% endfor %}
+    </table> -->
+
+    <div style="margin: 10px 0 0 10px;width: 1000px">
+        <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+    </div>
+    <script>
+    if({common_emotion} == 1)
+        document.write("Sad")
+    </script>
+    
+    
+    
+
+</body>
+</html>
