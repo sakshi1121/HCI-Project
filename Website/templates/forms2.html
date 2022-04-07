@@ -49,17 +49,18 @@
         }
 
         [data-role="controls"]>button {
-            margin: 50px auto;
+            margin: 20px auto; 
             outline: none;
-            display: block;
+            display: inline;
+            margin-left: 10px;
             border: none;
             background-color: #D9AFD9;
             background-image: -webkit-gradient(linear, left bottom, left top, from(#D9AFD9), to(#97D9E1));
             background-image: -o-linear-gradient(bottom, #D9AFD9 0%, #97D9E1 100%);
             background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            width: 10px;
+            height: 50px;
+            border-radius: 100%;
             text-indent: -1000em;
             cursor: pointer;
             -webkit-box-shadow: 0px 5px 5px 2px rgba(0, 0, 0, 0.3) inset,
@@ -148,6 +149,7 @@
             display: inline-block;
             width: 60px;
             height: 34px;
+            margin-left: 10px;
         }
 
         /* Hide default HTML checkbox */
@@ -168,6 +170,7 @@
             background-color: #ccc;
             -webkit-transition: .4s;
             transition: .4s;
+
         }
 
         .slider:before {
@@ -208,26 +211,25 @@
         .explanation {
             display: none;
         }
-
-        .card1,
-        .card2,
-        .card3,
-        .card4 {
-            display: none;
+        /* #info1,#info2{
+            background-color: rgb(202, 231, 216);
+        } */
+        .userinputs{
+            padding-left: 10px;
+            margin-top: 10px;
+            margin-right: 60px;
+            background-color: rgb(202, 231, 216);
         }
-
-        .active {
-            display: block;
-        }
+        
     </style>
 </head>
 
 <body>
     <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="#forms">Test</a>
+        <a href="#home">Home</a>
+        <a class="active" href="forms2.html">Test</a>
         <a href="#contact">Contact</a>
-        <a href="#results">Results</a>
+        <a href="results.html">Results</a>
     </div>
     <div class="container center">
         <div class="card">
@@ -239,46 +241,47 @@
                 </div>
                 <br><br>
                 Expand question
-                <br><br>
-
+                
                 <label class="switch">
                     <input id="on1" type="checkbox">
                     <div class="slider"></div>
                 </label>
                 <p id="info1"></p>
+                <div class="userinputs">
                 <div class="holder">
                     <div data-role="controls">
+                        <label>Click to record</label>
                         <button type="button">Record</button>
                     </div>
                 </div>
                 <div data-role="recordings"></div>
-                <!--<button class="btn" onclick="prev()">
-                    prev
-                </button>
-                
-                <button class="btn" onclick="next()">
-                    next
-                </button> 
-                <input type="submit" value="submit" id="btnSubmit">-->
+                <label>Or input a file</label>
+                <input type="file" id="q1" name="q1">
+                </div>
+                <br><br>
                 <div class="no-box">
                     <span class="no">Q2. Describe your energy in the past couple of weeks.</span>
                 </div>
                 <br><br>
                 Expand question
-                <br><br>
-                
+
                 <label class="switch">
                     <input id="on2" type="checkbox">
                     <div class="slider"></div>
                 </label>
                 <p id="info2"></p>
+                <div class="userinputs">
                 <div class="holder">
                     <div data-role="controls">
+                        <label>Click to record</label>
                         <button type="button">Record</button>
                     </div>
                 </div>
                 <div data-role="recordings"></div>
-                <button type="button" id="btnSubmit">Submit</button>
+                <label>Or input a file</label>
+                <input type="file" id="q2" name="q2">
+                </div>  
+                <button type="submit" id="btnSubmit">Submit</button>
         </div>
 
         </form>
@@ -385,7 +388,7 @@
         $(document).ready(function () {
             $('#on1').on('change', function () {
                 if (this.checked) {
-                    $("#info1").text("Talk about the things you did, how you felt etc.");
+                    $("#info1").text("Explanation: Talk about the things you did, how you felt etc.");
                 }
                 else {
                     $("#info1").text(" ");
@@ -393,15 +396,15 @@
             });
         });
         $(document).ready(function () {
-                $('#on2').on('change', function () {
-                    if (this.checked) {
-                        $("#info2").text("Do you feel motivated to do work or regular activities? How often do you skip events due to lack of energy?");
-                    }
-                    else {
-                        $("#info2").text(" ");
-                    }
-                });
+            $('#on2').on('change', function () {
+                if (this.checked) {
+                    $("#info2").text("Explanation: Do you feel motivated to do work or regular activities? How often do you skip events due to lack of energy?");
+                }
+                else {
+                    $("#info2").text(" ");
+                }
             });
+        });
 
         $(document).ready(function () {
 

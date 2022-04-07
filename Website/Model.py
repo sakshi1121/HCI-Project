@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory, make_response
 from werkzeug.utils import secure_filename
 import os
 import glob
@@ -82,9 +82,20 @@ def index():
             percentages = emotion_percentages(emotions)
             data2 = {'Emotions': 'percentages', 'calm': percentages[0], 'happy': percentages[1],
                      'sad': percentages[2], 'angry': percentages[3], 'fearful': percentages[4]}
+            x = compare_emotions(percentages)
             delete_files()
-            return render_template('results.html', emotion_detection=data, percentages_data=data2)
-    return render_template('forms.html')
+            return render_template('results.html', emotion_detection=data, percentages_data=data2, common_emotion=x)
+    return render_template('forms2.html')
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    if request.method == 'POST':
+        audioFile = request.files['audio']
+        filename = secure_filename(audioFile.filename)
+        audioFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        return make_response('SUCCESS', 200)
 
 
 def extract_feature(file_name, mfcc, chroma, mel):
@@ -142,6 +153,13 @@ def emotion_percentages(emotions):
     for i in range(0, 5):
         percentages[i] = percentages[i]*10
     return percentages
+
+
+def compare_emotions(percentages):
+    x = 0
+    if percentages[2]+percentages[3] > 5:
+        x = 1
+    return(x)
 
 
 def delete_files():

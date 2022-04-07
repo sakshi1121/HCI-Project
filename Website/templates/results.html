@@ -15,10 +15,11 @@
             {% if value is string %}
               ['{{ key }}', '{{ value }}'],
             {% else %}
-              ['{{ key }}', {{ value }}],
+              ['{{ key }}', {{ value }}], 
             {% endif %}
         {% endfor %}
           ]);
+        
 
         var options = {
             title: 'Percentages of Emotions Detected',
@@ -75,6 +76,12 @@
     <div style="margin: 10px 0 0 10px;width: 1000px">
         <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
     </div>
+    <script>
+    if({common_emotion} == 1)
+        document.write("Sad")
+    </script>
+    
+    
     
 
 </body>
