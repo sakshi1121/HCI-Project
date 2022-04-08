@@ -78,7 +78,8 @@ def index():
             data = {filename1: emotions[0], filename2: emotions[1],
                     filename3: emotions[2], filename4: emotions[3], filename5: emotions[4],
                     filename6: emotions[5], filename7: emotions[6],
-                    filename8: emotions[7], filename9: emotions[8], filename10: emotions[9]}
+                    filename8: emotions[7], filename9: emotions[8], filename10: emotions[9]
+                    }
             percentages = emotion_percentages(emotions)
             data2 = {'Emotions': 'percentages', 'calm': percentages[0], 'happy': percentages[1],
                      'sad': percentages[2], 'angry': percentages[3], 'fearful': percentages[4]}
@@ -88,14 +89,15 @@ def index():
     return render_template('forms2.html')
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         audioFile = request.files['audio']
         filename = secure_filename(audioFile.filename)
         audioFile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        return make_response('SUCCESS', 200)
+        # return make_response('SUCCESS', 200)
+    return render_template('results2.html')
 
 
 def extract_feature(file_name, mfcc, chroma, mel):

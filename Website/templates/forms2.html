@@ -4,7 +4,6 @@
 <head>
     <title>HCI</title>
     <link rel="canonical" href="https://markjivko.com/tutorials/B3wWIsNHPk4/">
-    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta name="Author" content="Mark Jivko">
     <meta name="Keywords" content="js,audio recorder">
@@ -238,12 +237,8 @@
             <h2>Self-assessment</h2>
             <hr />
             <form method="POST" enctype="multipart/form-data" id="myform">
-                <div class="no-box">
-                    <span class="no">Q1. How has your day been going?</span>
-                </div>
-                <br><br>
-                Expand question
-                
+                Q1. How has your day been going?
+                <br><br><br>Expand question
                 <label class="switch">
                     <input id="on1" type="checkbox">
                     <div class="slider"></div>
@@ -260,30 +255,198 @@
                 <label>Or input a file</label>
                 <input type="file" id="q1" name="q1">
                 </div>
-                <br><br>
-                <div class="no-box">
-                    <span class="no">Q2. Describe your energy in the past couple of weeks.</span>
-                </div>
-                <br><br>
-                Expand question
 
+                <br><br>
+
+                Q2. Describe your energy in the past couple of weeks.
+                <br><br><br>Expand question
                 <label class="switch">
                     <input id="on2" type="checkbox">
                     <div class="slider"></div>
                 </label>
                 <p id="info2"></p>
                 <div class="userinputs">
-                <div class="holder">
-                    <div data-role="controls">
-                        <label>Click to record</label>
-                        <button type="button">Record</button>
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
                     </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q2" name="q2">
                 </div>
-                <div data-role="recordings"></div>
-                <label>Or input a file</label>
-                <input type="file" id="q2" name="q2">
-                </div>  
-                <button type="submit" id="btnSubmit">Submit</button>
+
+                <br><br>
+                
+                Q3. Do you prefer to stay at home rather than going out and doing new things?
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on3" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info3"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q3" name="q3">
+                </div>
+
+                <br><br>
+                
+                Q4. How is your sleep schedule?
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on4" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info4"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q4" name="q4">
+                </div>
+
+                <br><br>
+
+                Q5. Have you ever had suicidal thoughts in the past couple of weeks? If so, how often?
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on5" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info5"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q5" name="q5">
+                </div>
+
+                <br><br>
+                
+                Q6
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on6" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info6"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q6" name="q6">
+                </div>
+
+                <br><br>
+
+                Q7
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on7" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info7"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q7" name="q7">
+                </div>
+
+                <br><br>
+                
+                Q8
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on8" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info8"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q8" name="q8">
+                </div>
+
+                <br><br>
+                
+                Q9
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on9" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info9"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q9" name="q9">
+                </div>
+                
+                <br><br>
+                
+                Q10
+                <br><br><br>Expand question
+                <label class="switch">
+                    <input id="on10" type="checkbox">
+                    <div class="slider"></div>
+                </label>
+                <p id="info10"></p>
+                <div class="userinputs">
+                    <div class="holder">
+                        <div data-role="controls">
+                            <label>Click to record</label>
+                            <button type="button">Record</button>
+                        </div>
+                    </div>
+                    <div data-role="recordings"></div>
+                    <label>Or input a file</label>
+                    <input type="file" id="q10" name="q10">
+                </div>
+                
+                <!-- <button type="submit" id="btnSubmit">Submit</button> -->
+                <button type="submit" class="center">Submit</button>
         </div>
 
         </form>
@@ -295,6 +458,7 @@
  
             <span id="output"></span>
         </div>      -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://markjivko.com/dist/recorder.js"></script>
     <script>
@@ -407,6 +571,87 @@
                 }
             });
         });
+    $(document).ready(function () {
+        $('#on3').on('change', function () {
+            if (this.checked) {
+                $("#info3").text("Explanation: 3");
+            }
+            else {
+                $("#info3").text(" ");
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#on4').on('change', function () {
+            if (this.checked) {
+                $("#info4").text("Explanation: 4");
+            }
+            else {
+                $("#info4").text(" ");
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#on5').on('change', function () {
+            if (this.checked) {
+                $("#info5").text("Explanation: 5");
+            }
+            else {
+                $("#info5").text(" ");
+            }
+        });
+    });
+    $(document).ready(function () {
+        $('#on6').on('change', function () {
+            if (this.checked) {
+                    $("#info6").text("Explanation: 6");
+            }
+            else {
+                    $("#info6").text(" ");
+                }
+        });
+    });
+    $(document).ready(function () {
+            $('#on7').on('change', function () {
+                if (this.checked) {
+                    $("#info7").text("Explanation: 7");
+                }
+                else {
+                    $("#info7").text(" ");
+                }
+            });
+        });
+    $(document).ready(function () {
+            $('#on8').on('change', function () {
+                if (this.checked) {
+                    $("#info8").text("Explanation: 8");
+                }
+                else {
+                    $("#info8").text(" ");
+                }
+            });
+        });
+    $(document).ready(function () {
+            $('#on9').on('change', function () {
+                if (this.checked) {
+                    $("#info9").text("Explanation: 9");
+                }
+                else {
+                    $("#info9").text(" ");
+                }
+            });
+        });
+    $(document).ready(function () {
+            $('#on10').on('change', function () {
+                if (this.checked) {
+                    $("#info10").text("Explanation: 10");
+                }
+                else {
+                    $("#info10").text(" ");
+                }
+            });
+        });
+   
 
         $(document).ready(function () {
 
@@ -422,7 +667,7 @@
                 $.ajax({
                     type: "POST",
                     enctype: 'multipart/form-data',
-                    url: "/upload",
+                    url: "/",
                     data: fd,
                     processData: false,
                     contentType: false,
@@ -447,56 +692,7 @@
             });
 
         });
-        var no_box = document
-            .querySelector('.no-box');
-
-        var i = 1;
-
-        function prev() {
-
-            // Start position 
-            if (i == 1) {
-
-                // Add disabled attribute on
-                // prev button
-                document.getElementsByClassName(
-                    'prev').disabled = true;
-
-                // Remove disabled attribute 
-                // from next button 
-                document.getElementsByClassName(
-                    'next').disabled = false;
-            } else {
-                i--;
-                return setNo();
-            }
-        }
-
-        function next() {
-
-            // End position
-            if (i == 5) {
-
-                // Add disabled attribute on 
-                // next button
-                document.getElementsByClassName(
-                    'next').disabled = true;
-
-                // Remove disabled attribute
-                // from prev button
-                document.getElementsByClassName(
-                    'prev').disabled = false;
-            } else {
-                i++;
-                return setNo();
-            }
-        }
-
-        function setNo() {
-
-            // Change innerhtml
-            return no_box.innerHTML = i;
-        }
+        
     </script>
 </body>
 

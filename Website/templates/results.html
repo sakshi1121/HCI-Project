@@ -6,20 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech Emotion Recognition</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <script type="text/javascript">
         google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
+       function drawChart() {
             var data = google.visualization.arrayToDataTable([
-        {% for key, value in percentages_data.items() %}
-            {% if value is string %}
-              ['{{ key }}', '{{ value }}'],
+                {% for key, value in percentages_data.items() %}
+        {% if value is string %}
+        ['{{ key }}', '{{ value }}'],
             {% else %}
-              ['{{ key }}', {{ value }}], 
+        ['{{ key }}', {{ value }}],
             {% endif %}
         {% endfor %}
           ]);
-        
 
         var options = {
             title: 'Percentages of Emotions Detected',
@@ -33,13 +33,20 @@
 </head>
 
 <body>
-    <div class="header" id="head">
-        <h1>Results!</h1>
+    <div class="topnav">
+        <a href="#home">Home</a>
+        <a href="#forms">Test</a>
+        <a class="active" href="#results">Results</a>
+        <a href="#contact">Contact Us</a>
     </div>
-<div class="login-box">
-  <!-- <h2>The results are displayed below:</h2> -->
+    <div class="container center">
+        <div class="card">
+            <h1>Results</h1>
 
-    <table id=t1>
+            <div class="login-box">
+                <p>Your test results are as follows:</p>
+
+                <!-- <table id=t1>
     <tr id=r1>
       <th>Question Number</th>
       <th>Detected Emotion</th>
@@ -54,9 +61,9 @@
         </td>
     </tr>
     {% endfor %}
-    </table>
+    </table> -->
 
-    <!-- <table id=t1>
+                <!-- <table id=t1>
         <tr id=r1>
             <th>Emotion</th>
             <th>Percentage</th>
@@ -73,16 +80,27 @@
         {% endfor %}
     </table> -->
 
-    <div style="margin: 10px 0 0 10px;width: 1000px">
-        <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
-    </div>
-    <script>
-    if({common_emotion} == 1)
-        document.write("Sad")
-    </script>
-    
-    
-    
+                <div style="margin: 0px 0 0 0px;width: 715px">
+                    <div id="piechart_3d" style="width: 700px; height: 300px; margin-top: 30px;"></div>
+                    <p>You seem to convey more negative emotions. While this may be because of temporary reasons such as
+                        stress or hearing
+                        badnews, we recommend that you take the test again after a few days. Never hesitate to ask for
+                        help!<br> Here are some
+                        reliable contacts you have been referred to. Stay safe!
+                        <br>
+                        Contact 1:
+                        <br>
+                        Contact 2:
+                        <br>
+                        You may send them this report if you wish to disclose.
+                    </p>
+                </div>
+
+
+
+            </div>
+        </div>
 
 </body>
+
 </html>
